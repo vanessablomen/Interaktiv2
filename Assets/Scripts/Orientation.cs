@@ -7,7 +7,7 @@ public class Orientation : MonoBehaviour
 {
 
 	[Header("References:")]
-	public Transform camera;
+	public new Transform camera;
 
 	[Space(10)]
 	[Header("Settings:")]
