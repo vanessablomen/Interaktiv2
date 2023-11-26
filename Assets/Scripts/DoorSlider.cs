@@ -2,16 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEditor;
+using Unity.VisualScripting;
 
 public class DoorSlider : MonoBehaviour
 {
     public Transform door;
-    private bool isOpen = false;
-    public Vector3 closedPosition ; 
+
     public Vector3 openPosition;
     public float slideSpeed = 5.0f;
     public TMP_Text interactionText;
     private bool isPlayerNear = false;
+    private bool isDoorMoving = false;
+ 
 
 
     // Start is called before the first frame update
@@ -20,37 +23,39 @@ public class DoorSlider : MonoBehaviour
         
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (isPlayerNear)
+        if (isDoorMoving)
         {
-            Debug.Log("Player is near the door");
-            if( Input.GetKeyDown(KeyCode.E))
-
-            { 
-                Debug.Log("E pressed"); 
-                ToggleDoor();
-
-            }
+            MoveDoor();
         }
-        if (isOpen)
+
+    }
+
+    private void MoveDoor()
+    {
+        if (door.position != openPosition)
         {
             door.position = Vector3.Lerp(door.position, openPosition, Time.deltaTime * slideSpeed);
         }
         else
         {
-            door.position = Vector3.Lerp(door.position, closedPosition, Time.deltaTime * slideSpeed);
+            isDoorMoving = false; // Stoppa dörrrörelsen när öppen position är nådd
         }
-        
     }
 
-    public void ToggleDoor() 
+    public void ToggleDoor()
     {
-        isOpen = true;
-        door.GetComponent<Collider>().enabled = false;
-
+        if (isPlayerNear)
+        {
+            isDoorMoving = true;
+            door.GetComponent<Collider>().enabled = false;
+        }
     }
+
+
+
+
 
     void OnTriggerEnter(Collider other)
     {
