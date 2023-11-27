@@ -46,32 +46,7 @@ public class DoorSlider : MonoBehaviour
 
     public void ToggleDoor()
     {
-        if (isPlayerNear)
-        {
             isDoorMoving = true;
             door.GetComponent<Collider>().enabled = false;
-        }
-    }
-
-
-
-
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            isPlayerNear = true;
-            interactionText.gameObject.SetActive(true);
-        }
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        { 
-            isPlayerNear = false;
-            interactionText.gameObject.SetActive(false);    
-        }
     }
 }
