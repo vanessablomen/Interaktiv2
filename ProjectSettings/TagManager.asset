@@ -6,6 +6,11 @@ TagManager:
   tags:
   - CinemachineTarget
   - Text
+  - Door
+  - hearts
+  - exit
+  - labyrintCamera
+  - Labyrint
   layers:
   - Default
   - TransparentFX
