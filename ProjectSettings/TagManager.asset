@@ -11,6 +11,7 @@ TagManager:
   - exit
   - labyrintCamera
   - Labyrint
+  - PausMenu
   layers:
   - Default
   - TransparentFX
