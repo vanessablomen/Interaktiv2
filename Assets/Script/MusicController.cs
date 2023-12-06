@@ -1,35 +1,45 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR;
 
 public class MusicController : MonoBehaviour
 {
     public AudioSource musicSource;
+    private bool isPlayerNear = false;
 
-    private bool isPlaying = false;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    private void OnTriggerEnter(Collider other)
+    { 
+        if(other.CompareTag("Player"))
+        {
+            isPlayerNear = true;
+        }
+
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit(Collider other)
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (other.CompareTag("Player"))
         {
-            if (isPlaying)
+            isPlayerNear = false;
+        }
+    }
+
+
+    private void Update()
+    {
+        if (isPlayerNear && Input.GetKeyDown(KeyCode.E)) 
+        {
+            if (musicSource.isPlaying)
             {
                 musicSource.Stop();
-                isPlaying = false;
             }
+
             else
             {
                 musicSource.Play();
-                isPlaying = true;
             }
 
         }
+        
     }
 }
