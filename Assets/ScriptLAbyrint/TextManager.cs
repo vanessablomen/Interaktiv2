@@ -7,10 +7,10 @@ using UnityEngine.UIElements;
 public class TextManager : MonoBehaviour
 {
     public TMP_Text scoreText;
+    public TMP_Text winText;
     private int hearts = 0;
     private bool hasWon = false; 
-    public int winningScore = 6;
-    public ExitTrigger exitTrigger; 
+    public int winningScore = 6; 
     public DoorController doorController;
   
 
@@ -20,18 +20,16 @@ public class TextManager : MonoBehaviour
     {
         scoreText.text =  hearts + "/6 ";
         UpdateScoreText();
+        winText.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!hasWon)
+        if (!hasWon && hearts >= winningScore)
         {
+            PlayerWins();
 
-            if (hearts >= winningScore)
-            {
-                doorController.HandleWin(); 
-            }
         }
     }
 
@@ -49,10 +47,7 @@ public class TextManager : MonoBehaviour
         scoreText.text = hearts + "/6 ";
     }
 
-    void UpdateTotalScoreText()
-    { 
-        scoreText.text = " / " + winningScore;
-    }
+
 
    
     public void PlayerWins()
@@ -62,6 +57,7 @@ public class TextManager : MonoBehaviour
 
             hasWon = true;
             doorController.HandleWin();
+            winText.gameObject.SetActive(true);
             
            
         }
