@@ -6,8 +6,14 @@ public class MusicController : MonoBehaviour
 {
     public AudioSource musicSource;
     private bool isPlayerNear = false;
+    public Transform player;
+    public Transform radio;
 
-    private void OnTriggerEnter(Collider other)
+	private void Start()
+	{
+
+	}
+	private void OnTriggerEnter(Collider other)
     { 
         if(other.CompareTag("Player"))
         {
@@ -27,19 +33,21 @@ public class MusicController : MonoBehaviour
 
     private void Update()
     {
-        if (isPlayerNear && Input.GetKeyDown(KeyCode.E)) 
+        if (Vector3.Distance(player.position, radio.position) < 2f && Input.GetKeyDown(KeyCode.E))
         {
-            if (musicSource.isPlaying)
+            if (musicSource.enabled)
             {
-                musicSource.Stop();
+                musicSource.enabled = false;
             }
-
             else
             {
-                musicSource.Play();
+
+                musicSource.enabled = true;
             }
 
+            musicSource.volume = 1 - (Vector3.Distance(player.position, radio.position) / 22);
+
+
         }
-        
     }
 }

@@ -4,66 +4,39 @@ using UnityEngine;
 
 public class LiftObject : MonoBehaviour
 {
-    private Transform gripPoint;
+    public Transform gripPoint;
 
-    private bool canCarry = false;
-    private bool isCarried = false;
+    Rigidbody rb;
+    private Transform carried;
+	public Transform cam;
+	public LayerMask lm;
+    RaycastHit hit;
 
-    public float throwForce = 10f;
-    public bool IsKinematic { get; private set; }
+	public float throwForce = 10f;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        { 
-            gripPoint = other.transform.GetChild(1);
-            canCarry = true;
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-
-            canCarry = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-
-            canCarry = false;
-        }
-
-    }
+    
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.G) && canCarry)
-        { 
-            if(!isCarried)
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            if (Physics.Raycast(cam.position, cam.forward, out hit, 2, lm))
             {
-                isCarried = true;
-                transform.position = gripPoint.position;
-                transform.rotation = gripPoint.rotation;    
-                transform.parent = gripPoint.parent;
-                GetComponent<Rigidbody>().isKinematic = true;
-                GetComponent<Collider>().isTrigger = true;
-
-
-            } 
-            else
-            {
-                transform.parent = null; 
-                Rigidbody rb = GetComponent<Rigidbody>();
-                rb.isKinematic = false;
-                GetComponent<Collider>().isTrigger=false;
-                rb.AddForce(gripPoint.forward * throwForce, ForceMode.Impulse);
-                isCarried=false;
-            }
+                carried = hit.transform;
+				rb = carried.GetComponent<Rigidbody>();
+			}
         }
-    }
+        if (Input.GetKeyUp(KeyCode.G) && carried != null)
+        {
+            rb.AddForce(cam.forward * throwForce, ForceMode.Impulse);
+            carried = null;
+        }
+
+		if (carried != null)
+        {
+			carried.position = gripPoint.position;
+            rb.velocity = Vector3.zero;
+		}
+
+	}
 }

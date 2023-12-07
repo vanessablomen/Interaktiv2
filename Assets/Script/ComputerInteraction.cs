@@ -12,6 +12,7 @@ public class ComputerInteraction : MonoBehaviour
     public GameObject labyrinthCharacter;
 
     public GameObject labyrinthControls; // Referens till labyrintspelets kontrollskript
+    public GameObject mainControls;
 
     private bool isPlayerNear = false;
     private void Start()
@@ -70,8 +71,45 @@ public class ComputerInteraction : MonoBehaviour
         if (labyrinthControls != null)
         {
             labyrinthControls.SetActive(!isLabyrinthActive);
-            Debug.Log("Labyrintkontroller " + (isLabyrinthActive ? "avaktiverade." : "aktiverade."));
         }
-    }
-    
+
+		Cursor.lockState = CursorLockMode.None;
+		Cursor.visible = true;
+	}
+
+
+
+	public void Pause()
+	{
+		// Pause och byt kamera
+		Time.timeScale = 1;
+
+	}
+
+	public void QuitAndSwitchToMainScene()
+    {
+		Debug.Log("QuitAndSwitchToMainScene called.");
+
+		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
+		// Avaktivera labyrintscenen och byt till huvudscenen
+		labyrinthContainer.SetActive(false);
+		mainSceneContainer.SetActive(true);
+
+		labyrinthCamera.gameObject.SetActive(false);
+		mainCamera.gameObject.SetActive(true);
+
+		labyrinthCharacter.SetActive(false);
+		mainCharacter.SetActive(true);
+
+		if (labyrinthControls != null)
+		{
+			labyrinthControls.SetActive(false);
+			Debug.Log("Labyrintkontroller avaktiverade.");
+            
+		}
+	}
+
+
+
 }

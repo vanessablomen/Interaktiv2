@@ -11,7 +11,7 @@ public class Orientation : MonoBehaviour
 
 	[Space(10)]
 	[Header("Settings:")]
-	public float mouseSensitivity = 100f;
+	public float mouseSensitivity;
 
 
 	private float xRotation = 0f;
@@ -19,6 +19,7 @@ public class Orientation : MonoBehaviour
 	void Start()
 	{
 		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
 	
 	}
 

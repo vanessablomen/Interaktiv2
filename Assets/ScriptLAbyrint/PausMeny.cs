@@ -3,8 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject pauseMenuUI; 
-
+    public GameObject pauseMenuUI;
+    public ComputerInteraction computerInteraction;
 
     private void Start()
     {
@@ -12,9 +12,9 @@ public class PauseMenu : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Debug.Log("Space key was pressed");
+
 
             if (Time.timeScale == 1)
             {
@@ -24,30 +24,34 @@ public class PauseMenu : MonoBehaviour
             {
                 Resume();
             }
+
         }
+
     }
 
     public void Pause()
     {
         pauseMenuUI.SetActive(true); // Aktiverar pausmenyn
         Time.timeScale = 0; // Pausar spelet
+
     }
 
     // Funktion för att återuppta spelet
     public void Resume()
     {
-        pauseMenuUI.SetActive(false); // Döljer pausmenyn
+		Debug.Log("Resume");
+		pauseMenuUI.SetActive(false); // Döljer pausmenyn
         Time.timeScale = 1; // Återupptar spelet
-    }
+	
+	}
 
     // Funktion för att avsluta spelet
     public void QuitGame()
     {
-        Debug.Log("Avslutar spelet");
-        Application.Quit();
 
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
-    }
+		Debug.Log("QuitGame called.");
+		computerInteraction.QuitAndSwitchToMainScene();
+		Time.timeScale = 1; // Återupptar spelet
+
+	}
 }
